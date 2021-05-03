@@ -42,6 +42,18 @@ function Register() {
       });
   };
 
+  const logout = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(function () {
+        Auth.setLoggedIn(false);
+      })
+      .catch(function (error) {
+        setErrors(error.message);
+      });
+  };
+
   return (
     <div>
       <h1>Register</h1>
@@ -61,18 +73,29 @@ function Register() {
           placeholder="password"
         />
         <hr />
-        <button
-          onClick={() => handleGoogleLogin()}
-          className="googleBtn"
-          type="button"
-        >
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
-            alt="logo"
-          />
-          Register With Google
-        </button>
-        <button type="submit">Register</button>
+        {Auth.isLoggedIn ? (
+          <div>
+            <button onClick={() => logout()}>Logout</button>
+          </div>
+        ) : (
+          <div>
+            <button
+              onClick={() => handleGoogleLogin()}
+              className="googleBtn"
+              type="button"
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+                alt="logo"
+              />
+              Register With Google
+            </button>
+            <br />
+            <br />
+            <button type="submit">Register</button>
+          </div>
+        )}
+
         <span>{error}</span>
       </form>
     </div>

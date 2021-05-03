@@ -40,6 +40,18 @@ function Login() {
       });
   };
 
+  const logout = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(function () {
+        Auth.setLoggedIn(false);
+      })
+      .catch(function (error) {
+        setErrors(error.message);
+      });
+  };
+
   return (
     <div>
       <h1>Login</h1>
@@ -59,18 +71,29 @@ function Login() {
           placeholder="password"
         />
         <hr />
-        <button
-          onClick={() => signInWithGoogle()}
-          className="googleBtn"
-          type="button"
-        >
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
-            alt="logo"
-          />
-          Login With Google
-        </button>
-        <button type="submit">Login</button>
+        {Auth.isLoggedIn ? (
+          <div>
+            <button onClick={() => logout()}>Logout</button>
+          </div>
+        ) : (
+          <div>
+            <button
+              onClick={() => signInWithGoogle()}
+              className="googleBtn"
+              type="button"
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+                alt="logo"
+              />
+              Login With Google
+            </button>
+            <br />
+            <br />
+            <button type="submit">Login</button>
+          </div>
+        )}
+
         <span>{error}</span>
       </form>
     </div>
