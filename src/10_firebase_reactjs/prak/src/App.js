@@ -3,7 +3,11 @@ import React from "react";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import Header from "./components/Header";
 import routes from "./components/routes";
+import firebase from "firebase/app";
+import { firebaseConfig } from "./firebase.config";
 import "./App.css";
+
+firebase.initializeApp(firebaseConfig);
 
 export const AuthContext = React.createContext(null);
 

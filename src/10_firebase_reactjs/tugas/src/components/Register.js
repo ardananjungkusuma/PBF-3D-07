@@ -1,16 +1,47 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../App";
+import firebase from "firebase/app";
+import "firebase/analytics";
+import "firebase/auth";
 
 function Register() {
-  const handleForm = (e) => {
-    e.preventDefault();
-    console.log(Auth);
-    Auth.setLoggedIn(true);
-  };
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setErrors] = useState("");
+
   const Auth = useContext(AuthContext);
+
+  const handleForm = (e) => {
+    e.preventDefault();
+
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((res) => {
+        if (res.user) Auth.setLoggedIn(true);
+      })
+      .catch((e) => {
+        setErrors(e.message);
+      });
+  };
+
+  const handleGoogleLogin = () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    firebase
+      .auth()
+      .setPersistence(firebase.auth.Auth.Persistence.SESSION)
+      .then(() => {
+        firebase
+          .auth()
+          .signInWithPopup(provider)
+          .then((res) => {
+            if (res.user) Auth.setLoggedIn(true);
+          })
+          .catch((e) => setErrors(e.message));
+      });
+  };
+
   return (
     <div>
       <h1>Register</h1>
@@ -30,7 +61,11 @@ function Register() {
           placeholder="password"
         />
         <hr />
-        <button className="googleBtn" type="button">
+        <button
+          onClick={() => handleGoogleLogin()}
+          className="googleBtn"
+          type="button"
+        >
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
             alt="logo"

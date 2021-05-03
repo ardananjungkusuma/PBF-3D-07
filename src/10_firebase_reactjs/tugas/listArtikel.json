@@ -1,0 +1,36 @@
+{
+  "posts": [
+    {
+      "userId": 1,
+      "title": "package portal dump",
+      "body": "hadeh harganya dump",
+      "id": 5
+    },
+    {
+      "userId": 1,
+      "title": "Niat masuk kripto malah...",
+      "body": "Dump dan dijegal semesta",
+      "id": 6
+    }
+  ],
+  "comments": [
+    {
+      "userId": 10,
+      "nama": "Diego",
+      "komentar": "Keren ngab artikelnya",
+      "id": 1
+    },
+    {
+      "userId": 11,
+      "nama": "Synxhronous",
+      "komentar": "Cool article bruh!",
+      "id": 2
+    },
+    {
+      "userId": 1,
+      "nama": "jasmin",
+      "komentar": "Sabar namanya juga kena fud",
+      "id": 3
+    }
+  ]
+}
