@@ -1,5 +1,7 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../App";
+import Spinner from "react-bootstrap/Spinner";
+import "bootstrap/dist/css/bootstrap.min.css";
 import firebase from "firebase/app";
 import "firebase/analytics";
 import "firebase/auth";
@@ -8,20 +10,24 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setErrors] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const Auth = useContext(AuthContext);
 
   const handleForm = (e) => {
     e.preventDefault();
+    setLoading(true);
 
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((res) => {
         if (res.user) Auth.setLoggedIn(true);
+        setLoading(false);
       })
       .catch((e) => {
         setErrors(e.message);
+        setLoading(false);
       });
   };
 
@@ -43,15 +49,8 @@ function Register() {
   };
 
   const logout = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(function () {
-        Auth.setLoggedIn(false);
-      })
-      .catch(function (error) {
-        setErrors(error.message);
-      });
+    firebase.auth().signOut();
+    Auth.setLoggedIn(false);
   };
 
   return (
@@ -92,7 +91,13 @@ function Register() {
             </button>
             <br />
             <br />
-            <button type="submit">Register</button>
+            <button type="submit">
+              {loading ? (
+                <Spinner animation="border" role="status" />
+              ) : (
+                "register"
+              )}
+            </button>
           </div>
         )}
 
