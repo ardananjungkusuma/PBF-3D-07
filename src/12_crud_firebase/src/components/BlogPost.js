@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Container, Form, Modal } from "react-bootstrap";
-import { DB } from "../firebase.config";
+import { DB, myFirebase } from "../firebase.config";
+// import "../css/bootstrap.min.css";
 
 function DaftarArtikel(props) {
   return (
@@ -56,7 +57,7 @@ export default class BlogPost extends React.Component {
     } else if (postArtikel.title && postArtikel.body) {
       console.log(dataArtikel);
       const id = new Date().getTime().toString();
-      let userId = 1; // TODO: set to username/email
+      let userId = myFirebase.auth().currentUser.email; // TODO: set to username/email
       let title = postArtikel.title;
       let body = postArtikel.body;
       dataArtikel.push({ id, userId, title, body });
@@ -104,9 +105,33 @@ export default class BlogPost extends React.Component {
 
     const { dataArtikel, postArtikel } = this.state;
 
-    // ... silakan lengkapi kode di sini ...
+    const updateData = dataArtikel.find((data) => {
+      return data.id === e.target.value;
+    });
 
-    this.setState({ postArtikel, showEdit: true });
+    this.setState({ postArtikel: updateData, showEdit: true });
+  };
+
+  handleUpdateArtikel = (e) => {
+    e.preventDefault();
+    const { dataArtikel, postArtikel } = this.state;
+    if (postArtikel.id != null) {
+      let id = postArtikel.id;
+      const updateState = dataArtikel.find((data) => {
+        return data.id === postArtikel.id;
+      });
+      updateState.userId = myFirebase.auth().currentUser.email;
+      updateState.title = postArtikel.title;
+      updateState.body = postArtikel.body;
+      console.log(updateState);
+      console.log(dataArtikel);
+      console.log(postArtikel);
+      console.log(e.target);
+    }
+    postArtikel.id = "";
+    postArtikel.title = "";
+    postArtikel.body = "";
+    this.setState({ postArtikel, showEdit: false });
   };
 
   componentDidMount() {
@@ -114,7 +139,7 @@ export default class BlogPost extends React.Component {
   }
 
   render() {
-    const { dataArtikel } = this.state;
+    const { dataArtikel, showEdit, postArtikel } = this.state;
 
     return (
       <div>
@@ -184,7 +209,7 @@ export default class BlogPost extends React.Component {
           </Modal.Header>
           <Modal.Body>
             <Container>
-              <Form onSubmit={this.handleTombolSimpan}>
+              <Form onSubmit={this.handleUpdateArtikel}>
                 <Form.Group controlId="inputJudul">
                   <Form.Label>Judul Artikel</Form.Label>
                   <Form.Control
@@ -208,7 +233,11 @@ export default class BlogPost extends React.Component {
                     rows={3}
                   />
                 </Form.Group>
-                <Button variant="primary" type="submit">
+                <Button
+                  variant="primary"
+                  type="submit"
+                  onClick={() => this.setState({ showEdit: false })}
+                >
                   Update Artikel
                 </Button>
               </Form>

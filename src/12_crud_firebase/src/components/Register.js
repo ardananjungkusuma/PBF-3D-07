@@ -14,7 +14,7 @@ function Register(props) {
     dispatch(registerUser(email, password));
   };
 
-  const { isLoggingIn, registerError, isAuthenticated } = props;
+  const { isLoading, registerError, isAuthenticated } = props;
 
   if (isAuthenticated) {
     return <Redirect to="/" />;
@@ -29,7 +29,6 @@ function Register(props) {
             name="email"
             type="email"
             placeholder="email"
-            required
           />
           <input
             value={password}
@@ -37,15 +36,14 @@ function Register(props) {
             name="password"
             type="password"
             placeholder="password"
-            required
           />
           <hr />
           <button type="submit">Register</button>
           <hr />
-          <span>{registerError && "Email atau Password Telah Digunakan!"}</span>
-          <span>{isLoggingIn && "Sedang login ..."}</span>
+          <span>{registerError && "Regist error"}</span>
+          <span>{isLoading && "Sedang Mendaftar ..."}</span>
         </form>
-        <Link to="/login">Click to login</Link>
+        <Link to="/login">Click to Login</Link>
       </div>
     );
   }
@@ -53,7 +51,7 @@ function Register(props) {
 
 function mapStateToProps(state) {
   return {
-    isLoggingIn: state.auth.isLoggingIn,
+    isLoading: state.auth.isLoading,
     registerError: state.auth.registerError,
     isAuthenticated: state.auth.isAuthenticated,
   };

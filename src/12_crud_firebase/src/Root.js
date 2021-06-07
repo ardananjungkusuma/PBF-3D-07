@@ -5,7 +5,7 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
 
-function Root(props) {
+function Root (props) {
   const { isAuthenticated, isVerifying } = props;
   return (
     <Switch>
@@ -22,10 +22,10 @@ function Root(props) {
   );
 }
 
-function mapStateToProps(state) {
+function mapStateToProps (state) {
   return {
     isAuthenticated: state.auth.isAuthenticated,
-    isVerifying: state.auth.isVerifying,
+    isVerifying: state.auth.isVerifying
   };
 }
 

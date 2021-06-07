@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { Redirect, Link } from "react-router-dom";
 import { loginUser } from "../redux/actions/auth";
 
+import "bootstrap/dist/css/bootstrap.min.css";
+
 function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,36 +22,33 @@ function Login(props) {
     return <Redirect to="/" />;
   } else {
     return (
-      <section>
-        <div>
-          <h1>Login</h1>
-          <form onSubmit={(e) => handleForm(e)}>
-            <input
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              name="email"
-              type="email"
-              placeholder="email"
-              required
-            />
-            <input
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              name="password"
-              type="password"
-              placeholder="password"
-              required
-            />
-            <hr />
-            <button type="submit">Login</button>
-
-            <hr />
-            <span>{loginError && "Email atau Password Salah!"}</span>
-            <span>{isLoggingIn && "Sedang login ..."}</span>
-          </form>
-          <Link to="/register">Click to Register</Link>
-        </div>
-      </section>
+      <div>
+        <h1>Login</h1>
+        <form onSubmit={(e) => handleForm(e)}>
+          <input
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            name="email"
+            type="email"
+            placeholder="email"
+            required
+          />
+          <input
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            name="password"
+            type="password"
+            placeholder="password"
+            required
+          />
+          <hr />
+          <button type="submit">Login</button>
+          <hr />
+          <span>{loginError && "Email atau Password Salah!"}</span>
+          <span>{isLoggingIn && "Sedang login ..."}</span>
+        </form>
+        <Link to="/register">Click to Register</Link>
+      </div>
     );
   }
 }

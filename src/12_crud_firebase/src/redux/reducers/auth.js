@@ -2,26 +2,27 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
+  REGISTER_REQUEST,
+  REGISTER_SUCCESS,
+  REGISTER_FAILURE,
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
   VERIFY_REQUEST,
-  VERIFY_SUCCESS,
-  REGISTER_REQUEST,
-  REGISTER_SUCCESS,
-  REGISTER_FAILURE,
+  VERIFY_SUCCESS
 } from "../actions/auth";
 
 export default (
   state = {
     isLoggingIn: false,
     isLoggingOut: false,
+    isLoading: false,
     isVerifying: false,
     loginError: false,
     registerError: false,
     logoutError: false,
     isAuthenticated: false,
-    user: {},
+    user: {}
   },
   action
 ) => {
@@ -30,65 +31,71 @@ export default (
       return {
         ...state,
         isLoggingIn: true,
-        loginError: false,
+        loginError: false
       };
     case LOGIN_SUCCESS:
       return {
         ...state,
         isLoggingIn: false,
         isAuthenticated: true,
-        user: action.user,
-      };
-    case REGISTER_SUCCESS:
-      return {
-        ...state,
-        isLoggingIn: false,
-        isAuthenticated: true,
-        user: action.user,
+        user: action.user
       };
     case LOGIN_FAILURE:
       return {
         ...state,
         isLoggingIn: false,
         isAuthenticated: false,
-        loginError: true,
+        loginError: true
       };
-    case REGISTER_FAILURE:
-      return {
-        ...state,
-        isLoggingIn: false,
-        isAuthenticated: false,
-        registerError: true,
-      };
+      case REGISTER_REQUEST:
+        return {
+          ...state,
+          isLoading: true,
+          registerError: false
+        };
+      case REGISTER_SUCCESS:
+        return {
+          ...state,
+          isLoading: false,
+          isAuthenticated: true,
+          user: action.user
+        };
+      case REGISTER_FAILURE:
+        return {
+          ...state,
+          isLoading: false,
+          isAuthenticated: false,
+          loginError: true
+        };
     case LOGOUT_REQUEST:
       return {
         ...state,
         isLoggingOut: true,
-        logoutError: false,
+        logoutError: false
       };
     case LOGOUT_SUCCESS:
       return {
         ...state,
         isLoggingOut: false,
         isAuthenticated: false,
-        user: {},
+        user: {}
       };
     case LOGOUT_FAILURE:
       return {
         ...state,
         isLoggingOut: false,
-        logoutError: true,
+        logoutError: true
       };
     case VERIFY_REQUEST:
       return {
         ...state,
         isVerifying: true,
-        verifyingError: false,
+        verifyingError: false
       };
     case VERIFY_SUCCESS:
       return {
         ...state,
-        isVerifying: false,
+        isVerifying: false
       };
     default:
       return state;

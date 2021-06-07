@@ -4,12 +4,13 @@ import { logoutUser } from "../redux/actions/auth";
 import BlogPost from "./BlogPost";
 
 class Home extends React.Component {
+
   handleLogout = () => {
     const { dispatch } = this.props;
     dispatch(logoutUser());
   };
 
-  render() {
+  render () {
     const { isLoggingOut, logoutError } = this.props;
     return (
       <div>
@@ -22,12 +23,13 @@ class Home extends React.Component {
       </div>
     );
   }
+
 }
 
-function mapStateToProps(state) {
+function mapStateToProps (state) {
   return {
     isLoggingOut: state.auth.isLoggingOut,
-    logoutError: state.auth.logoutError,
+    logoutError: state.auth.logoutError
   };
 }
 
