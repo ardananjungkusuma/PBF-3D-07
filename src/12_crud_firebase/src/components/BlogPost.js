@@ -134,6 +134,14 @@ export default class BlogPost extends React.Component {
     this.setState({ postArtikel, showEdit: false });
   };
 
+  handleTombolBatal = (e) => {
+    e.preventDefault();
+
+    const { postArtikel } = this.state;
+    postArtikel.id = "";
+    this.setState({ postArtikel, showEdit: false });
+  };
+
   componentDidMount() {
     this.ambilDataDariServerAPI();
   }
@@ -244,10 +252,7 @@ export default class BlogPost extends React.Component {
             </Container>
           </Modal.Body>
           <Modal.Footer>
-            <Button
-              variant="danger"
-              onClick={() => this.setState({ showEdit: false })}
-            >
+            <Button variant="danger" onClick={this.handleTombolBatal}>
               Batal
             </Button>
           </Modal.Footer>
